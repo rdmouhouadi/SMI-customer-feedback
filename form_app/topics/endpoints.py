@@ -15,7 +15,7 @@ def render():
         "What are the worst brands and models, and why?"
     )
     
-    answers["Any brands or models missing in the portfolio?] = st.text_area(
+    answers["Any brands or models missing in the portfolio?"] = st.text_area(
         "Any brands or models missing in the portfolio?"
     )
     
@@ -23,7 +23,7 @@ def render():
         "Easy to install?"
     )
 
-    answers["Easy to maintain?] = st.text_area(
+    answers["Easy to maintain?"] = st.text_area(
         "Easy to maintain?"
     )
 

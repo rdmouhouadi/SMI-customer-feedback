@@ -7,8 +7,8 @@ def render():
         ["Very happy", "Happy", "Not happy", "Desappointed"]
     )
 
-    answers["How easy is it to use?] = st.radio(
-        "How easy is it to use?,
+    answers["How easy is it to use?"] = st.radio(
+        "How easy is it to use?",
         ["Very easy", "Easy", "Difficult", "Very difficult"]
     )
 

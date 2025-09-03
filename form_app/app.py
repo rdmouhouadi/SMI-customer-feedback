@@ -14,6 +14,19 @@ st.set_page_config(
     page_icon="📋"
 )
 
+
+# ---------------------
+# File Setup
+# ---------------------
+responses_file = "../responses.csv"
+
+# Create responses file if it doesn't exist
+if not os.path.exists(responses_file):
+    pd.DataFrame(columns=[
+        "Customer ID", "Name", "Email", "Company",
+        "Topic", "Question", "Answer", "Timestamp"
+    ]).to_csv(responses_file, index=False)
+
 # ---------------------
 # Logo and Header
 # ---------------------
@@ -96,6 +109,9 @@ else:
     # Load existing responses for this customer to show checkmarks
     # ---------------------
     responses_file = "../responses.csv"
+
+    responses_file = "../responses.csv"
+
     completed_topics = set()
 
     if os.path.exists(responses_file):

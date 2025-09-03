@@ -22,7 +22,7 @@ def render():
         "How easy do you find it to visualize and understand alarms?",
         ["Very easy", "Easy", "Difficult", "Very difficult"]
     )
-    answers["How easy do you find it to visualize consumption in graphs, including exports?" = st.radio(
+    answers["How easy do you find it to visualize consumption in graphs, including exports?"] = st.radio(
         "How easy do you find it to visualize consumption in graphs, including exports?",
         ["Very easy", "Easy", "Difficult", "Very difficult"]
     )

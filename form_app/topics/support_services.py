@@ -14,7 +14,7 @@ def render():
         "How happy are you with our Project Management?",
         ["Very happy", "Happy", "Not happy", "Desappointed"]
     )
-    anwsers["Any suggestions for improvement?"] = st.text_area(
+    answers["Any suggestions for improvement?"] = st.text_area(
         "Any suggestions for improvement in general?"
     )
     return answers
