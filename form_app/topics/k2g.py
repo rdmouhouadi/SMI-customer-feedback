@@ -25,7 +25,7 @@ def render():
     answers["Any issues with the concentrators?"] = st.text_area(
         "Any issues with the concentrators?"
     )
-    ansqers["Any issues with the SIM cards from Suez Digital Solutions or related to the telecom operators?"] = st.text_area(
+    answers["Any issues with the SIM cards from Suez Digital Solutions or related to the telecom operators?"] = st.text_area(
         "Any issues with the SIM cards from Suez Digital Solutions or related to the telecom operators?"
     )
     answers["How happy are you with the K2G fleet performance?"] = st.radio(

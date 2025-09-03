@@ -32,6 +32,6 @@ def render():
         ["Very happy", "happy", "Not happy", "Desappointed"]
     )
     answers["What do you think that could be improved in OGM?"] = st.text_area(
-        "What do you think that could be improved in OGM?
+        "What do you think that could be improved in OGM?"
     )
     return answers

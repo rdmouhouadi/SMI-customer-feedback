@@ -15,11 +15,21 @@ st.set_page_config(
 )
 
 # ---------------------
+# File Setup
+# ---------------------
+responses_file = os.path.join(os.path.dirname(__file__), "responses.csv")
+
+# Create responses file if it doesn't exist
+if not os.path.exists(responses_file):
+    pd.DataFrame(columns=[
+        "Customer ID", "Name", "Email", "Company",
+        "Topic", "Question", "Answer", "Timestamp"
+    ]).to_csv(responses_file, index=False)
+
+# ---------------------
 # Logo and Header
 # ---------------------
-
-st.logo(image="images/Logo_Suez.png", icon_image="images/Logo_Suez.png",size="large")
-
+st.logo(image="images/Logo_Suez.png", icon_image="images/Logo_Suez.png", size="large")
 
 st.markdown("""
     <div style='text-align: center; margin-top: -20px; margin-bottom: 20px;'>
@@ -49,7 +59,7 @@ topics = list(topic_modules.keys())
 # ---------------------
 # Session State Init
 # ---------------------
-for key in ["name", "company", "email", "customer_id"]:
+for key in ["name", "company", "email", "customer_id", "selected_label", "finished"]:
     if key not in st.session_state:
         st.session_state[key] = ""
 
@@ -68,13 +78,11 @@ if not all([st.session_state.name, st.session_state.company, st.session_state.em
             st.session_state.name = name
             st.session_state.email = email
             st.session_state.company = company
-    
+
             # Try to find existing customer_id from responses.csv
-            responses_file = "../responses.csv"
             customer_id = None
             if os.path.exists(responses_file):
                 df = pd.read_csv(responses_file)
-                # Search for existing customer with same name/email/company
                 match = df[
                     (df["Name"] == name) &
                     (df["Email"] == email) &
@@ -82,27 +90,44 @@ if not all([st.session_state.name, st.session_state.company, st.session_state.em
                 ]
                 if not match.empty:
                     customer_id = match.iloc[0]["Customer ID"]
-            
+
             # If no existing customer, generate new UUID
-            if customer_id:
-                st.session_state.customer_id = customer_id
-            else:
-                st.session_state.customer_id = str(uuid.uuid4())
-                
+            st.session_state.customer_id = customer_id if customer_id else str(uuid.uuid4())
+            st.session_state.selected_label = topics[0]
             st.rerun()
 
 else:
     # ---------------------
-    # Load existing responses for this customer to show checkmarks
+    # Load existing responses for this customer
     # ---------------------
-    responses_file = "../responses.csv"
     completed_topics = set()
-
     if os.path.exists(responses_file):
         df_responses = pd.read_csv(responses_file)
-        # Filter responses for current customer
         df_cust = df_responses[df_responses["Customer ID"] == st.session_state.customer_id]
         completed_topics = set(df_cust["Topic"].unique())
+
+    # ---------------------
+    # Closing Page if All Completed
+    # ---------------------
+    if len(completed_topics) == len(topics):
+        st.session_state["finished"] = True
+
+    if st.session_state.get("finished", False):
+        st.markdown("---")
+        st.markdown("""
+            <div style='text-align: center; margin-top: 50px;'>
+                <h2 style='color: #003366;'>🎉 Thank You for Your Feedback!</h2>
+                <p style='font-size: 18px; margin-top: 20px;'>
+                    Again, your feedback is important to us. We guarantee that we will take into consideration 
+                    all your answers in order to make our solutions better and suitable for your needs 
+                    as much as possible.
+                </p>
+                <p style='font-size: 16px; margin-top: 40px; font-style: italic;'>
+                    From the Suez Smart Metering International team
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+        st.stop()
 
     # ---------------------
     # Sidebar with checkmarks
@@ -112,17 +137,34 @@ else:
         label = f"{topic} ✅" if topic in completed_topics else topic
         sidebar_labels.append(label)
 
-    # Map label to original topic for lookup after selection
     label_to_topic = {label: topic for label, topic in zip(sidebar_labels, topics)}
 
-    st.sidebar.title("🧭 Navigate Form")
-    selected_label = st.sidebar.radio("Select a section:", sidebar_labels)
+    if not st.session_state.selected_label:
+        st.session_state.selected_label = sidebar_labels[0]
+
+    # Ensure selected_label always matches an existing option
+    if st.session_state.selected_label not in sidebar_labels:
+        # Get original topic from stored value (remove ✅ if needed)
+        plain_topic = st.session_state.selected_label.replace(" ✅", "")
+        if plain_topic in topics:
+            st.session_state.selected_label = (
+                f"{plain_topic} ✅" if plain_topic in completed_topics else plain_topic
+            )
+        else:
+            st.session_state.selected_label = sidebar_labels[0]
+
+    selected_label = st.sidebar.radio(
+        "Select a section:",
+        sidebar_labels,
+        index=sidebar_labels.index(st.session_state.selected_label)
+    )
     selected_topic = label_to_topic[selected_label]
+    st.session_state.selected_label = selected_label
 
     # ---------------------
     # Welcome Message
     # ---------------------
-    st.success(f"Hello **{st.session_state.name}** from **{st.session_state.company}**, welcome to our smart metering feedback portal. Use the sidebar to navigate between sections and fill out each topic's questions.")
+    st.success(f"Hello **{st.session_state.name}** from **{st.session_state.company}**, welcome to our smart metering feedback portal. Use the sidebar or navigation buttons to fill out each topic's questions.")
 
     # ---------------------
     # Load Selected Topic Module
@@ -142,7 +184,7 @@ else:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             rows = []
             for question, answer in answers.items():
-                row = {
+                rows.append({
                     "Customer ID": st.session_state.customer_id,
                     "Name": st.session_state.name,
                     "Email": st.session_state.email,
@@ -151,10 +193,45 @@ else:
                     "Question": question,
                     "Answer": answer,
                     "Timestamp": timestamp
-                }
-                rows.append(row)
+                })
 
-            df = pd.DataFrame(rows)
-            df.to_csv(responses_file, mode="a", header=not os.path.exists(responses_file), index=False)
+            new_df = pd.DataFrame(rows)
+
+            # Overwrite old answers for this topic/customer
+            df_existing = pd.read_csv(responses_file)
+            df_existing = df_existing[
+                ~((df_existing["Customer ID"] == st.session_state.customer_id) &
+                  (df_existing["Topic"] == selected_topic))
+            ]
+            df_updated = pd.concat([df_existing, new_df], ignore_index=True)
+            df_updated.to_csv(responses_file, index=False)
+
             st.success(f"Your answers for **{selected_topic}** have been saved. Thank you!")
+
+            # Jump to next incomplete topic if available
+            remaining = [t for t in topics if t not in completed_topics or t == selected_topic]
+            if remaining:
+                next_topic = remaining[0] if remaining[0] != selected_topic else (
+                    remaining[1] if len(remaining) > 1 else selected_topic
+                )
+                next_label = [lbl for lbl, t in label_to_topic.items() if t == next_topic][0]
+                st.session_state.selected_label = next_label
             st.rerun()
+
+    # ---------------------
+    # Navigation Buttons
+    # ---------------------
+    topic_index = topics.index(selected_topic)
+    col1, col2 = st.columns([1, 1])
+
+    if col1.button("⬅️ Previous", disabled=(topic_index == 0)):
+        prev_topic = topics[topic_index - 1]
+        prev_label = [label for label, topic in label_to_topic.items() if topic == prev_topic][0]
+        st.session_state.selected_label = prev_label
+        st.rerun()
+
+    if col2.button("Next ➡️", disabled=(topic_index == len(topics) - 1)):
+        next_topic = topics[topic_index + 1]
+        next_label = [label for label, topic in label_to_topic.items() if topic == next_topic][0]
+        st.session_state.selected_label = next_label
+        st.rerun()
