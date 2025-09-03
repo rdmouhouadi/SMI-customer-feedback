@@ -2,14 +2,14 @@ import streamlit as st
 
 def render():
     answers = {}
-    answers["How would you rate the overall smart metering solution?"] = st.radio(
-        "How would you rate the overall smart metering solution?",
-        ["Excellent", "Good", "Average", "Poor"]
+    answers["How happy are you with the technology in general?"] = st.radio(
+        "How happy are you with the technology in general?",
+        ["Very happy", "happy", "Neutral", "Unhappy", "Dessapointed"]
     )
-    answers["What aspects of the solution do you value the most?"] = st.text_area(
-        "What aspects of the solution do you value the most?"
+    answers["What are the strong points of the technology?"] = st.text_area(
+        "What are the strong points of the technology?"
     )
-    answers["Any suggestions for improvement in general?"] = st.text_area(
-        "Any suggestions for improvement in general?"
+    answers["What do you think could be improved in the technology?"] = st.text_area(
+        "What do you think could be improved in the technology?"
     )
     return answers
