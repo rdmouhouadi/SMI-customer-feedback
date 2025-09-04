@@ -110,8 +110,8 @@ if all([st.session_state["name"], st.session_state["company"], st.session_state[
     )
 
     st.warning(
-    "⚠️ Your answers are **automatically saved** after each section submission.\n\n"
-    "Do **not refresh** the page while completing the form, as this will require you to re-enter your name, email, and company information."
+    "⚠️Important: Your answers are **automatically saved** after each section submission.\n\n"
+    "Do **not refresh** the page while completing the form, as this will require you to re-enter the exact credentials (name, email, and company) you provided in order to resume where you left off."
 )
 
     # ---------------------
