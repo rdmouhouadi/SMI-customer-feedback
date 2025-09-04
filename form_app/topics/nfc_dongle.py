@@ -4,12 +4,12 @@ def render():
     answers = {}
     answers["How happy are you with the NFC dongle?"] = st.radio(
         "How happy are you with the NFC dongle?",
-        ["Very happy", "happy", "Not happy", "Desappointed"], index=None
+        ["Very happy", "happy", "Not happy", "Desappointed"]
     )
 
     answers["Is it easy to use?"] = st.radio(
         "Is it easy to use?",
-        ["Yes", "No"], index=None
+        ["Yes", "No"]
     )
     
     answers["How happy are you with the battery and its autonomy?"] = st.text_area(
@@ -18,7 +18,7 @@ def render():
 
     answers["Is the battery easy to recharge?"] = st.radio(
         "Is the battery easy to recharge?",
-        ["Yes", "No"], index=None
+        ["Yes", "No"]
     )
 
     answers["Do you have any issue with the NFC dongles?"] = st.text_area(

@@ -4,7 +4,7 @@ def render():
     answers = {}
     answers["How happy are you with the technology in general?"] = st.radio(
         "How happy are you with the technology in general?",
-        ["Very happy", "happy", "Neutral", "Unhappy", "Dessapointed"], index=None
+        ["Very happy", "happy", "Neutral", "Unhappy", "Dessapointed"]
     )
     answers["What are the strong points of the technology?"] = st.text_area(
         "What are the strong points of the technology?"
