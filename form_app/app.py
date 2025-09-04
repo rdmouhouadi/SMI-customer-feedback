@@ -93,7 +93,7 @@ if all([st.session_state["name"], st.session_state["company"], st.session_state[
             st.session_state["selected_label"] = sidebar_labels[0]
 
     selected_label = st.sidebar.radio(
-        "Select a section:",
+        "Topics:",
         sidebar_labels,
         index=sidebar_labels.index(st.session_state["selected_label"])
     )
@@ -105,7 +105,7 @@ if all([st.session_state["name"], st.session_state["company"], st.session_state[
     # ---------------------
     st.info(
         f" Hello **{st.session_state['name']}** from **{st.session_state['company']}**, "
-        "welcome to our Smart Metering feedback portal. Use the sidebar or navigation buttons to fill out each topic's questions.",
+        "welcome to our Smart Metering feedback portal. Use the navigation buttons to fill out each topic's questions.",
         icon="👋"
     )
 
