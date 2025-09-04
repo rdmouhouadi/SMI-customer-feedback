@@ -1,12 +1,13 @@
 import streamlit as st
 
 def show_customer_info_form():
-    with st.form("customer_info_form"):
-        st.subheader("👤 Client Details")
-        name = st.text_input("Your Name")
-        email = st.text_input("Email Address")
-        company = st.text_input("Your Company Name")
-        submit_info = st.form_submit_button("Continue")
+    with st.container(horizontal_alignment="center", vertical_alignment="center"):
+        with st.form("customer_info_form", width=500, height=500):
+            st.subheader("👤 Client Details")
+            name = st.text_input("Your Name")
+            email = st.text_input("Email Address")
+            company = st.text_input("Your Company Name")
+            submit_info = st.form_submit_button("Continue")
     return name, email, company, submit_info
 
 def show_thank_you_page():
