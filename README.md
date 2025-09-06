@@ -49,8 +49,9 @@ Feedback from customers and partners is crucial for shaping the roadmap of smart
 ### **Phase 1: MVP (POC)**  
 - ✅ Build Streamlit form app for structured feedback collection.  
 - ✅ Persist responses in CSV with timestamp + customer ID.  
-- ✅ Add navigation and progress tracking.  
-- 🚧 Build analytics dashboard with SCAT score + sentiment.  
+- ✅ Add navigation and progress tracking.
+- 🚧 Deploy the feedback portal (on Streamlit)
+- 🚧 Build analytics dashboard with SCAT score + sentiment analysis.  
 
 ### **Phase 2: Scaling**  
 - Migrate storage to SQL database.  
@@ -66,8 +67,8 @@ Feedback from customers and partners is crucial for shaping the roadmap of smart
 
 ## ⚡ Example Workflow  
 
-1. **Customer** logs in with name, email, company.  
-2. **Portal** displays feedback topics (WIZE, Endpoints, OGM, etc.) in sidebar.  
+1. **Customer** logs in with name, email, and company name.  
+2. **Portal** displays feedback topics (WIZE, Endpoints, OGM, etc.) in the sidebar.  
 3. **Customer** answers structured & open-ended questions per topic.  
 4. **System** auto-saves responses after each section.  
-5. **Dashboard** aggregates answers → shows SCAT score, sentiment trends, and raw response tables.  
+5. **Dashboard** aggregates answers → shows SCAT (satisfaction) score, sentiment trends, and raw response tables.  
