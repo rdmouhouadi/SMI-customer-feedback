@@ -4,7 +4,7 @@ def render():
     answers = {}
     answers["How happy are you with PeauseNG"] = st.radio(
         "How happy are you with PeauseNG?",
-        ["Very happy", "Happy", "Not happy", "Desappointed"]
+        ["Very happy", "Happy", "Not happy", "Desappointed"], index=None
     )
 
     answers["How easy is it to use?"] = st.radio(

@@ -4,7 +4,7 @@ def render():
     answers = {}
     answers["How happy are you with end-points?"] = st.radio(
         "How happy are you with end-points?",
-        ["Very happy", "Happy", "Not happy", "Desappointed"]
+        ["Very happy", "Happy", "Not happy", "Desappointed"], index=None
     )
     
     answers["What are the best brands and models, and why?"] = st.text_area(
