@@ -93,7 +93,7 @@ if all([st.session_state["name"], st.session_state["company"], st.session_state[
             st.session_state["selected_label"] = sidebar_labels[0]
 
     selected_label = st.sidebar.radio(
-        "Topics:",
+        "**TOPICS**",
         sidebar_labels,
         index=sidebar_labels.index(st.session_state["selected_label"])
     )

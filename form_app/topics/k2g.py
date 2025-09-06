@@ -4,14 +4,14 @@ def render():
     answers = {}
     answers["How happy are with the K2G?"] = st.radio(
         "How happy are you with teh K2G?",
-        ["Very happy", "happy", "Not happy", "Desappointed"]
+        ["Very happy", "happy", "Not happy", "Desappointed"], index=None
     )
     answers["Any recurrent issue with the deliveries (delays, shipping, etc.)"] = st.text_area(
         "Any recurrent issue with the deliveries (delays, shipping, etc.)?"
     )
     answers["How easy are they to install and commission (validation, optimization and tuning)?"] = st.radio(
         "How easy are they to install and commission (validation, optimization and tuning)?",
-        ["Very easy", "Easy", "Difficult", "Very difficult"]
+        ["Very easy", "Easy", "Difficult", "Very difficult"], index=None
     )
     answers["Any issues with the filters or accessories (such as external antenas, ...)?"] = st.text_area(
         "Any issues with the filters or accessories (such as external antenas, ...)?"
@@ -30,7 +30,7 @@ def render():
     )
     answers["How happy are you with the K2G fleet performance?"] = st.radio(
         "How happy are you with the K2G fleet performance?",
-        ["Very happy", "Happy", "Not happy", "Desappointed"]
+        ["Very happy", "Happy", "Not happy", "Desappointed"], index=None
     )
     answers["What do you think could be improved in the concentrators?"] = st.text_area(
         "What do you think could be improved in the concentrators?"
